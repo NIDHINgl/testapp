@@ -9,17 +9,12 @@
 import React from 'react';
 import type {Node} from 'react';
 import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
   StyleSheet,
   Text,
-  useColorScheme,
-  View,
 } from 'react-native';
 
 
-import { store } from './src/store';
+import { store,persistor } from './src/store';
 import {NavigationContainer, DefaultTheme} from '@react-navigation/native';
 import {
   createStackNavigator,
@@ -27,6 +22,7 @@ import {
 } from '@react-navigation/stack';
 import { Provider as ReduxProvider } from 'react-redux';
 import Gallery from './src/screens/Gallery'
+import { PersistGate } from 'redux-persist/integration/react'
 
 const App: () => Node = () => {
  
@@ -35,7 +31,7 @@ const Stack = createStackNavigator();
 
   return (
     <ReduxProvider store={store}>
-
+    <PersistGate loading={<Text>Loading...</Text>} persistor={persistor}>
     <NavigationContainer>
         <Stack.Navigator initialRouteName="Gallery">
         <Stack.Screen
@@ -54,6 +50,7 @@ const Stack = createStackNavigator();
               /> */}
         </Stack.Navigator>
     </NavigationContainer>
+    </PersistGate>
     </ReduxProvider>
   );
 };
